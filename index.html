@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TerraTransfer++: Demonstration-Free End-to-End Planner</title>
+<meta name="description" content="TerraTransfer++: a demonstration-free end-to-end planner. Learn to drive by self-play, learn to plan by trajectory distillation, then learn to see by aligning a vision student to the frozen teacher.">
+<meta name="theme-color" content="#006CFA">
+
+<!-- Open Graph / social preview -->
+<meta property="og:title" content="TerraTransfer++: Demonstration-Free End-to-End Planner"/>
+<meta property="og:description" content="Demonstration-free end-to-end driving via self-play, trajectory distillation, and vision alignment."/>
+<meta property="og:type" content="website"/>
+<!-- <meta property="og:image" content="assets/figures/teaser.png"/> -->
+
+<link rel="icon" href="assets/brand/favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/brand/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+
+<script>document.documentElement.className += " js";</script>
+<!-- ?v= is the first 8 hex of the file's md5: refresh both on every publish so browsers
+     never pair new HTML with a cached stylesheet/script -->
+<link rel="stylesheet" href="assets/css/styles.css?v=d0bb6b8c">
+</head>
+<body>
+<!-- ===================== Header ===================== -->
+<header class="site-header">
+  <div class="wide">
+    <a class="brand-mark" href="https://www.appliedintuition.com/research" target="_blank" rel="noopener">TerraTransfer++</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav">
+      <a href="#idea">Philosophy</a>
+      <a href="#method">Method</a>
+      <a href="#results" data-spy="navsim">Results</a>
+      <a href="#plans" data-spy="qualitative">Demo</a>
+      <a href="#terra-series">Terra Series</a>
+      <a href="#bibtex">BibTeX</a>
+      <a href="https://www.appliedintuition.com/research" target="_blank" rel="noopener">Research ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===================== Hero ===================== -->
+<section class="hero">
+  <div class="wide">
+    <div class="hero-intro">
+      <p class="eyebrow">Applied Intuition · Technical Report</p>
+      <h1>TerraTransfer<span class="accent">++</span>:<br>Demonstration-Free End-to-End <span class="accent">Planner</span></h1>
+      <p class="lead">Learn to <mark class="hl">drive</mark> by <strong>self-play</strong> in a vectorized simulator, learn to <mark class="hl">plan</mark> by <strong>trajectory distillation</strong> from a flow-matching teacher, then learn to <mark class="hl">see</mark> by <strong>aligning a vision student</strong> to either frozen teacher &mdash; no human demonstrations at any stage.</p>
+
+      <div class="hero-meta">
+        <p class="byline">
+          <span class="names">
+            <a href="https://xiong.zikang.me/" target="_blank" rel="noopener">Zikang Xiong</a><sup>1</sup>,
+            <a href="https://scholar.google.com/citations?user=99Cyd0YAAAAJ" target="_blank" rel="noopener">Weixin Li</a><sup>1</sup>,
+            <a href="https://scholar.google.com/citations?user=pfQtUzEAAAAJ" target="_blank" rel="noopener">Zhouchonghao Wu</a><sup>1</sup>,
+            <a href="https://arangesh.github.io/" target="_blank" rel="noopener">Akshay Rangesh</a><sup>1</sup>,
+            <a href="https://www.linkedin.com/in/saarth-bonde-a4692b145/" target="_blank" rel="noopener">Saarth Bonde</a><sup>1</sup>,
+            <a href="https://www.grantlandhall.com/" target="_blank" rel="noopener">Grantland Hall</a><sup>1</sup>,
+            <a href="https://chentangmark.github.io/" target="_blank" rel="noopener">Chen Tang</a><sup>2</sup>,
+            <a href="https://scholar.google.com/citations?user=lf0bLigAAAAJ" target="_blank" rel="noopener">Yihan Hu</a><sup>1</sup>,
+            <a href="https://zhanwei.site/" target="_blank" rel="noopener">Wei Zhan</a><sup>1,3</sup>
+          </span>
+        </p>
+        <p class="affil"><sup>1</sup> Applied Intuition &nbsp;·&nbsp; <sup>2</sup> UCLA &nbsp;·&nbsp; <sup>3</sup> UC Berkeley</p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="https://arxiv.org/abs/2610.30319" target="_blank" rel="noopener">arXiv</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terra Series header timeline: plays once (~3 s) when scrolled into view, then holds -->
+    <div class="tl" role="list" aria-label="The Terra Series timeline">
+      <div class="tl-rail" aria-hidden="true">
+        <span class="tl-rail-base"></span>
+        <span class="tl-rail-fill"></span>
+        <span class="tl-rail-head"><span></span></span>
+      </div>
+      <div class="tl-item" role="listitem" style="--i:0">
+        <div class="tl-head">
+          <p class="tl-date">Terra Series Origin</p>
+          <p class="tl-title"><a href="https://terra-applied.github.io/TerraZero/" target="_blank" rel="noopener">TerraZero</a></p>
+          <p class="tl-tag">Learn to drive in self-play</p>
+        </div>
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-drop">
+          <span class="tl-stem" aria-hidden="true"></span>
+          <div class="tl-panel">
+            <ul>
+              <li><strong>Fast, feature-rich</strong> driving simulation via self-play</li>
+              <li><strong>2.8M&nbsp;steps/s</strong> on an 8&times; server node</li>
+              <li><strong>State&#8209;of&#8209;the&#8209;art</strong> driving performance (<strong>94.19</strong> on nuPlan val14, <strong>70.87</strong> on InterPlan)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item" role="listitem" style="--i:1">
+        <div class="tl-head">
+          <p class="tl-date">Jun 2026</p>
+          <p class="tl-title"><a href="https://terra-applied.github.io/TerraTransfer/" target="_blank" rel="noopener">TerraTransfer</a></p>
+          <p class="tl-tag">Transfer TerraZero to E2E driving by learning to see</p>
+        </div>
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-drop">
+          <span class="tl-stem" aria-hidden="true"></span>
+          <div class="tl-panel">
+            <ul>
+              <li><strong class="tl-first">First of its kind:</strong> brings a self-play policy into E2E driving by learning to see via <strong>image-to-vector encoder alignment</strong></li>
+              <li>Driving policies learnt from <strong>1.5B+&nbsp;miles / 2,535&nbsp;years</strong> of experience in self-play</li>
+              <li><strong>State-of-the-art</strong> closed-loop E2E driving performance (<strong>0.490&nbsp;HD&#8209;Score</strong> on HUGSim)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item is-current" role="listitem" style="--i:2">
+        <div class="tl-head">
+          <p class="tl-date">Oct 2026 &middot; This work</p>
+          <p class="tl-title">TerraTransfer<span class="accent">++</span></p>
+          <p class="tl-tag">Learn to plan in long horizon for TerraTransfer</p>
+        </div>
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-drop">
+          <span class="tl-stem" aria-hidden="true"></span>
+          <div class="tl-panel">
+            <ul>
+              <li><strong>Planning capability</strong> distilled from self-play rollout experience</li>
+              <li><strong>State&#8209;of&#8209;the&#8209;art</strong> open-loop and closed-loop E2E driving performance (<strong>59.4 EPDMS</strong> on navhard, <strong>95.5&nbsp;PDMS</strong> on navtest, <strong>0.548&nbsp;HD&#8209;Score</strong> on HUGSim)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Teaser + Philosophy ===================== -->
+<section id="idea">
+  <div class="wide reveal">
+    <div class="video-frame teaser-frame">
+      <video id="teaser-video" muted loop playsinline controls controlslist="nodownload" preload="metadata" data-play-in-view>
+        <source src="assets/videos/trailer_tt_to_pp.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="idea-statement">
+      <p class="eyebrow" style="margin-top:var(--space-5)">Philosophy</p>
+      <h2 class="idea-kinetic">Decouple learning to <span class="accent">drive</span> and <span class="accent">plan</span><br>from learning to <span class="accent">see</span></h2>
+      <p class="lead" style="max-width:56rem">Master driving first by <mark class="hl">self-play</mark> in a fast vectorized simulator, turn its rollouts into a <mark class="hl">trajectory planner</mark> &mdash; then let the agent see, by <mark class="hl">aligning a vision frontend</mark> to the skills it already has.</p>
+    </div>
+
+    <div class="statline reveal">
+      <div><span class="stat-num">0</span><span class="stat-cap">human demonstrations, at any stage</span></div>
+      <div><span class="stat-num">#<span class="digit-gap" aria-hidden="true">0</span>1</span><span class="stat-cap">ranking on NAVSIM <code>navhard</code> (59.4 EPDMS), <code>navtest</code> (95.5 PDMS), and HUGSim (0.548 HD-Score)</span></div>
+      <div><span class="stat-num">8&times;10<sup>11</sup></span><span class="stat-cap">simulated steps</span></div>
+    </div>
+
+    <details class="abstract-details" id="abstract">
+      <summary>Full abstract</summary>
+      <p>
+        End-to-end autonomous driving has achieved state-of-the-art performance on benchmarks and
+        real-world deployments. Its standard training recipe, however, is expensive across all
+        existing paradigms: imitation learning requires fleet-scale driving logs whose behavior
+        distribution only thinly covers the safety-critical tail; closed-loop reinforcement learning
+        in a photorealistic simulator, while offering diverse behaviors, is bottlenecked by
+        sample-efficiency, per-step cost of rendering, and a forward pass through a large vision
+        backbone. Self-play in vectorized simulators changes the economics: at millions of rollout
+        steps per second, one can obtain a state distribution with natural diversity in collisions,
+        near-misses, and recoveries that no driving log contains, and a highly reactive policy
+        emerges from a basic driving-quality reward.
+        Our approach exploits this asymmetry by decoupling <em>learning to drive</em> and
+        <em>learning to plan</em> from <em>learning to see</em>. We pretrain a single policy by
+        self-play, distill its rollouts into a flow-matching trajectory teacher that also plans, and
+        train lightweight adapters on a frozen pretrained vision backbone to reproduce the latent
+        space of either teacher through the action Kullback-Leibler divergence, a batch-relational
+        low-rank structural loss, and, for the planner, a trajectory-matching loss. Every target
+        traces back to the self-play policy, so alignment never supervises against a logged
+        trajectory: a paired dataset of (image, scene-state) frames suffices, with no need for the
+        curated expert demonstrations that imitation pretraining is built on. From this one
+        self-play teacher we obtain two end-to-end students: a closed-loop policy that outperforms
+        every published imitation-based end-to-end method on the photorealistic 3D Gaussian
+        splatting closed-loop benchmark HUGSim, and a planner that reaches 59.4 EPDMS on NAVSIM
+        <code>navhard</code>, outperforming every published method including DriveZero-Scale (57.1), and
+        95.5 PDMS on <code>navtest</code>, without human demonstrations.
+      </p>
+    </details>
+  </div>
+</section>
+
+<!-- ===================== Method ===================== -->
+<section id="method">
+  <div class="wide reveal">
+    <p class="eyebrow">Method &middot; Phase 1</p>
+    <h2>Learn to drive &mdash; by self-play</h2>
+    <p class="diagram-lead">One shared policy controls <em>every</em> agent in <strong>TerraZero</strong>, our vectorized simulator. Each agent observes its ego state, nearby road polylines and <strong>traffic controls</strong>, and neighboring agents. Trained with PPO, it learns from the long tail of its own behavior &mdash; collisions, near-misses, recoveries &mdash; <strong>never imitating a human</strong>.</p>
+
+    <div class="stage-dark reveal">
+      <div class="diagram-wrap">
+      <svg class="diagram" viewBox="0 0 1600 620" role="img" aria-label="Phase 1: self-play videos feed ego, road (incl. traffic controls) and partner encoders, a shared MLP trunk and an action head; PPO actions feed back into the simulator.">
+        <defs>
+          <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4B84FF"/></marker>
+          <linearGradient id="labelfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(0,0,0,.82)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/></linearGradient>
+        </defs>
+
+        <!-- fan-out: panel -> encoders (junction 40 from the encoders, mirroring the fan-in) -->
+        <path d="M606,258 H660" class="w-blue"/>
+        <path d="M660,128 V388" class="w-blue"/>
+        <path d="M660,128 H692" class="w-blue" marker-end="url(#arr-b)"/>
+        <path d="M660,258 H692" class="w-blue" marker-end="url(#arr-b)"/>
+        <path d="M660,388 H692" class="w-blue" marker-end="url(#arr-b)"/>
+
+        <!-- encoders -->
+        <g class="node-train"><rect x="700" y="88" width="200" height="80" rx="8"/><text x="800" y="122" class="n-title">Ego encoder</text><text x="800" y="148" class="n-sub">MLP</text></g>
+        <g class="node-train"><rect x="700" y="218" width="200" height="80" rx="8"/><text x="800" y="252" class="n-title">Road encoder</text><text x="800" y="278" class="n-sub">DeepSets</text></g>
+        <g class="node-train"><rect x="700" y="348" width="200" height="80" rx="8"/><text x="800" y="382" class="n-title">Partner encoder</text><text x="800" y="408" class="n-sub">DeepSets</text></g>
+
+        <!-- fan-in: encoders -> trunk (junction 40 from the encoders) -->
+        <path d="M900,128 H940 M900,258 H940 M900,388 H940" class="w-blue"/>
+        <path d="M940,128 V388" class="w-blue"/>
+        <path d="M940,258 H1032" class="w-blue" marker-end="url(#arr-b)"/>
+
+        <g class="node-train"><rect x="1040" y="196" width="170" height="124" rx="8"/><text x="1125" y="250" class="n-title">Shared MLP</text><text x="1125" y="278" class="n-sub">trunk</text></g>
+        <path d="M1210,258 H1282" class="w-blue" marker-end="url(#arr-b)"/>
+        <g class="node-train"><rect x="1290" y="196" width="200" height="124" rx="8"/><text x="1390" y="250" class="n-title">Action Head</text><text x="1390" y="278" class="n-math"><tspan class="mi">&pi;</tspan>(<tspan class="mi">a</tspan><tspan dx="2.6">|</tspan><tspan dx="2.6" class="mt">state</tspan>)</text></g>
+
+        <!-- PPO loop back into the simulator -->
+        <path d="M1490,258 H1555 V540 H18 V258 H58" class="w-loop" marker-end="url(#arr-b)"/>
+        <g class="ppo-chip"><rect x="500" y="516" width="720" height="46" rx="6"/><text x="860" y="545">PPO &middot; actions fed back &rarr; interaction distribution co-evolves</text></g>
+      </svg>
+      <!-- self-play video 2x2 grid: an HTML overlay at viewBox box (66, 106, 540, 304), centred
+           on the Road encoder row (y = 258). Not a <foreignObject>: WebKit (every iOS browser)
+           does not apply the viewBox scale to layered HTML such as <video> inside foreignObject. -->
+      <div class="fo-panel diagram-overlay" style="left:4.125%; top:17.097%; width:33.75%; height:49.032%">
+        <div class="fo-grid2">
+          <video muted loop playsinline autoplay preload="metadata" src="assets/videos/selfplay-3d-1.mp4"></video>
+          <video muted loop playsinline autoplay preload="metadata" src="assets/videos/selfplay-3d-2.mp4"></video>
+          <video muted loop playsinline autoplay preload="metadata" src="assets/videos/selfplay-3d-3.mp4"></video>
+          <video muted loop playsinline autoplay preload="metadata" src="assets/videos/selfplay-3d-4.mp4"></video>
+        </div>
+        <div class="fo-label"><span>TerraZero &middot; massively-parallel self-play</span><span class="fo-meta">1.5B miles</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="statline statline--tight statline--n3 reveal" data-countup>
+      <div><span class="stat-num accent">0</span><span class="stat-cap">human demonstrations</span></div>
+      <div><span class="stat-num">#<span class="count" data-roll data-from="21" data-to="1" data-dec="0">1</span></span><span class="stat-cap">ranking on val14 and InterPlan</span></div>
+      <div><span class="stat-num"><span class="count" data-to="96" data-dec="0">96</span>&nbsp;h</span><span class="stat-cap">of self-play on 16 A100 GPUs</span></div>
+      <div><span class="stat-num"><span class="count" data-to="1.5" data-dec="1">1.5</span>B&nbsp;miles</span><span class="stat-cap">of simulated driving</span></div>
+      <div><span class="stat-num"><span class="count" data-to="10.7" data-dec="1">10.7</span>&nbsp;<span class="times-unit">&times;</span></span><span class="stat-cap">one-way Earth-to-Mars trips in driving distance</span></div>
+      <div><span class="stat-num"><span class="count" data-to="2535" data-dec="0">2,535</span>&nbsp;yrs</span><span class="stat-cap">of self-play driving experience</span></div>
+    </div>
+  </div>
+
+  <div class="wide reveal" style="margin-top:var(--space-5)">
+    <p class="eyebrow">Method &middot; Phase 2</p>
+    <h2>Learn to plan &mdash; distill self-play rollouts into a trajectory teacher</h2>
+    <p class="diagram-lead">The self-play policy is <strong>frozen</strong> and its rollouts become a <strong>trajectory dataset</strong>: for every frame, the target is the policy&rsquo;s own realized 8&nbsp;s future, never a logged human trajectory. A <strong>flow-matching trajectory teacher</strong> learns these futures and actions from the same vector state, giving the self-play teacher a planning interface.</p>
+
+    <figure class="figure figure--diagram reveal">
+      <img src="assets/figures/method_phase2_plan.png" alt="Phase 2: self-play rollouts of the frozen policy form a dataset of realized 8-second futures and actions at 10 Hz; a trajectory teacher with a vector-state encoder and flow-matching head is trained with flow-matching and action losses to output a planned trajectory." loading="lazy">
+    </figure>
+
+    <div class="statline statline--tight statline--n3 reveal">
+      <div><span class="stat-num accent">0</span><span class="stat-cap">logged trajectories</span></div>
+      <div><span class="stat-num">#<span class="digit-gap" aria-hidden="true">0</span>1</span><span class="stat-cap">ranking on NAVSIM <code>navhard</code> and <code>navtest</code></span></div>
+      <div><span class="stat-num">1&nbsp;h</span><span class="stat-cap">of rollouts on 64 A100 GPUs</span></div>
+    </div>
+  </div>
+
+  <div class="wide reveal" style="margin-top:var(--space-5)">
+    <p class="eyebrow">Method &middot; Phase 3</p>
+    <h2>Learn to see &mdash; align a vision student to either frozen teacher</h2>
+    <p class="diagram-lead">A frozen DINOv3 backbone with trained adapters maps camera images into the teacher&rsquo;s scene features, while the teacher&rsquo;s heads are copied and frozen. Three losses tie student to teacher on paired (image, scene-state) frames: a <strong>feature alignment loss</strong>, an <strong>action KL loss</strong>, and, for the planner, a <strong>trajectory-matching loss</strong>. The self-play teacher yields the closed-loop student; the trajectory teacher yields the planning student. <strong>No logged trajectory is ever a target.</strong></p>
+
+    <figure class="figure figure--diagram reveal">
+      <img src="assets/figures/method_phase3_see.png" alt="Phase 3: a camera image goes through DINOv3 plus a trained adapter into scene features; the copied, frozen action and trajectory heads produce driving actions and a planned trajectory. The frozen teacher (self-play or trajectory teacher) reads 3D vector state. Feature alignment, trajectory match (L2), and action match (KL) losses tie the two." loading="lazy">
+    </figure>
+
+    <div class="statline statline--tight statline--n3 reveal">
+      <div><span class="stat-num accent">0</span><span class="stat-cap">online rendering</span></div>
+      <div><span class="stat-num">#<span class="digit-gap" aria-hidden="true">0</span>1</span><span class="stat-cap">ranking on HUGSim</span></div>
+      <div><span class="stat-num">10&nbsp;h</span><span class="stat-cap">of alignment on 8 A100 GPUs</span></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===================== Results: HUGSim ===================== -->
+<section id="results">
+  <div class="wide reveal">
+    <p class="eyebrow">Results &middot; HUGSim</p>
+    <h2>Outperforms every published end-to-end baseline in closed loop</h2>
+    <p class="diagram-lead">Closed-loop and native <strong>HD-Score</strong> on <strong>HUGSim</strong> &mdash; all 436 photorealistic 3D-Gaussian-splatting scenarios across four dataset splits (nuScenes 88, PandaSet 127, KITTI-360 113, Waymo 108), pooled over all scenarios.</p>
+
+    <div class="bars-pair bars-pair--3">
+    <div class="bars bars--results reveal">
+      <p class="bars-title">Closed-loop HD-Score</p>
+      <div class="bar-row"><span class="bar-label">VAD</span><span class="bar-track"><span class="bar-fill" style="--w:31.2%"></span></span><span class="bar-val">0.187</span></div>
+      <div class="bar-row"><span class="bar-label">UniAD</span><span class="bar-track"><span class="bar-fill" style="--w:40.7%"></span></span><span class="bar-val">0.244</span></div>
+      <div class="bar-row"><span class="bar-label">LTF</span><span class="bar-track"><span class="bar-fill" style="--w:44.3%"></span></span><span class="bar-val">0.266</span></div>
+      <div class="bar-row"><span class="bar-label">ECO</span><span class="bar-track"><span class="bar-fill" style="--w:71.3%"></span></span><span class="bar-val">0.428</span></div>
+      <div class="bar-row is-ours"><span class="bar-label">TerraTransfer++ (ours)</span><span class="bar-track"><span class="bar-fill" style="--w:91.3%"></span></span><span class="bar-val">0.548</span></div>
+      <div class="bar-row is-ref"><span class="bar-label">Self-play teacher <span class="ref-note">(privileged state)</span></span><span class="bar-track"><span class="bar-fill" style="--w:93.7%"></span></span><span class="bar-val">0.562</span></div>
+    </div>
+    <div class="bars bars--results reveal">
+      <p class="bars-title">Native HD-Score</p>
+      <div class="bar-row"><span class="bar-label">VAD</span><span class="bar-track"><span class="bar-fill" style="--w:30.5%"></span></span><span class="bar-val">0.183</span></div>
+      <div class="bar-row"><span class="bar-label">UniAD</span><span class="bar-track"><span class="bar-fill" style="--w:41.2%"></span></span><span class="bar-val">0.247</span></div>
+      <div class="bar-row"><span class="bar-label">LTF</span><span class="bar-track"><span class="bar-fill" style="--w:45.7%"></span></span><span class="bar-val">0.274</span></div>
+      <div class="bar-row"><span class="bar-label">ECO</span><span class="bar-track"><span class="bar-fill" style="--w:57.3%"></span></span><span class="bar-val">0.344</span></div>
+      <div class="bar-row is-ours"><span class="bar-label">TerraTransfer++ (ours)</span><span class="bar-track"><span class="bar-fill" style="--w:88.1%"></span></span><span class="bar-val">0.528</span></div>
+      <div class="bar-row is-ref"><span class="bar-label">Self-play teacher <span class="ref-note">(privileged state)</span></span><span class="bar-track"><span class="bar-fill" style="--w:90.3%"></span></span><span class="bar-val">0.542</span></div>
+    </div>
+    <div class="bars bars--results reveal">
+      <p class="bars-title">Native HD-Score <span class="ref-note">(earlier 345-scenario protocol*)</span></p>
+      <div class="bar-row"><span class="bar-label">GigaPixel</span><span class="bar-track"><span class="bar-fill" style="--w:64.2%"></span></span><span class="bar-val">0.385</span></div>
+      <div class="bar-row"><span class="bar-label">DriveZero</span><span class="bar-track"><span class="bar-fill" style="--w:77.7%"></span></span><span class="bar-val">0.466</span></div>
+      <div class="bar-row is-ours"><span class="bar-label">TerraTransfer++ (ours)</span><span class="bar-track"><span class="bar-fill" style="--w:86.3%"></span></span><span class="bar-val">0.518</span></div>
+    <p class="muted bars-legend">*GigaPixel and DriveZero report only the pre-challenge 345-scenario protocol and their checkpoints are not public, so we re-evaluate ours on the same 345 scenarios with HUGSim&rsquo;s native scorer.</p>
+    </div>
+    </div>
+    <!-- ECO closed-loop pooled value: the report states ECO "trails the student by 0.120" (0.548 - 0.120).
+         Native pooled values: scenario-weighted mean of the per-split "All" columns in the table below (88/127/113/108). -->
+
+    <p class="muted" style="max-width:60rem">
+      The student retains roughly <strong>97.5%</strong> of its privileged teacher&rsquo;s closed-loop score and leads
+      every baseline on the Easy, Medium, and Hard tiers and the All aggregate of every split. The exception is the
+      <strong>Extreme</strong> tier, whose partly implausible adversarial scenarios reward never reacting; like its
+      teacher, the student yields as a human driver would and sacrifices route completion.
+    </p>
+
+    <details class="table-details">
+      <summary>Full per-split table (closed-loop and native HD-Score)</summary>
+      <div class="table-wrap">
+        <table class="data data--compact" id="tbl-hugsim">
+          <thead>
+            <tr><th></th><th colspan="5">Closed-loop HD-Score</th><th colspan="5">Native HD-Score</th></tr>
+            <tr>
+              <th>Method</th><th>Easy</th><th>Medium</th><th>Hard</th><th>Extreme</th><th>All</th><th>Easy</th><th>Medium</th><th>Hard</th><th>Extreme</th><th>All</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="group"><td colspan="11">nuScenes (88)</td></tr>
+            <tr><td>UniAD</td><td>0.423</td><td>0.231</td><td>0.286</td><td>0.122</td><td>0.259</td><td>0.412</td><td>0.234</td><td>0.290</td><td>0.129</td><td>0.260</td></tr>
+            <tr><td>VAD</td><td>0.443</td><td>0.256</td><td>0.270</td><td>0.108</td><td>0.267</td><td>0.424</td><td>0.246</td><td>0.257</td><td>0.113</td><td>0.257</td></tr>
+            <tr><td>LTF</td><td>0.708</td><td>0.440</td><td>0.326</td><td>0.111</td><td>0.404</td><td>0.702</td><td>0.440</td><td>0.331</td><td>0.124</td><td>0.407</td></tr>
+            <tr><td>ECO</td><td>0.764</td><td>0.416</td><td>0.405</td><td>0.255</td><td>0.452</td><td>0.846</td><td>0.431</td><td>0.403</td><td><strong>0.263</strong></td><td>0.476</td></tr>
+            <tr class="is-ref"><td>Self-play teacher (ref., privileged state)</td><td>0.906</td><td>0.684</td><td>0.685</td><td>0.279</td><td>0.647</td><td>0.875</td><td>0.657</td><td>0.653</td><td>0.250</td><td>0.618</td></tr>
+            <tr class="is-ours"><td>TerraTransfer++ student (ours)</td><td><strong>0.901</strong></td><td><strong>0.682</strong></td><td><strong>0.641</strong></td><td><strong>0.278</strong></td><td><strong>0.636</strong></td><td><strong>0.884</strong></td><td><strong>0.650</strong></td><td><strong>0.620</strong></td><td>0.251</td><td><strong>0.610</strong></td></tr>
+            <tr class="group"><td colspan="11">PandaSet (127)</td></tr>
+            <tr><td>UniAD</td><td>0.577</td><td>0.380</td><td>0.235</td><td>0.125</td><td>0.295</td><td>0.576</td><td>0.384</td><td>0.242</td><td>0.135</td><td>0.301</td></tr>
+            <tr><td>VAD</td><td>0.477</td><td>0.305</td><td>0.192</td><td>0.108</td><td>0.241</td><td>0.467</td><td>0.303</td><td>0.191</td><td>0.113</td><td>0.241</td></tr>
+            <tr><td>LTF</td><td>0.882</td><td>0.376</td><td>0.208</td><td>0.085</td><td>0.311</td><td>0.877</td><td>0.386</td><td>0.219</td><td>0.097</td><td>0.323</td></tr>
+            <tr><td>ECO</td><td>0.884</td><td>0.639</td><td>0.174</td><td><strong>0.247</strong></td><td>0.446</td><td>0.876</td><td>0.470</td><td>0.044</td><td>0.156</td><td>0.326</td></tr>
+            <tr class="is-ref"><td>Self-play teacher (ref., privileged state)</td><td>0.890</td><td>0.883</td><td>0.302</td><td>0.224</td><td>0.554</td><td>0.876</td><td>0.872</td><td>0.275</td><td>0.186</td><td>0.532</td></tr>
+            <tr class="is-ours"><td>TerraTransfer++ student (ours)</td><td><strong>0.892</strong></td><td><strong>0.871</strong></td><td><strong>0.353</strong></td><td>0.234</td><td><strong>0.565</strong></td><td><strong>0.882</strong></td><td><strong>0.855</strong></td><td><strong>0.324</strong></td><td><strong>0.189</strong></td><td><strong>0.539</strong></td></tr>
+            <tr class="group"><td colspan="11">KITTI-360 (113)</td></tr>
+            <tr><td>UniAD</td><td>0.231</td><td>0.101</td><td>0.079</td><td>0.024</td><td>0.106</td><td>0.232</td><td>0.107</td><td>0.082</td><td>0.028</td><td>0.110</td></tr>
+            <tr><td>VAD</td><td>0.084</td><td>0.068</td><td>0.075</td><td>0.026</td><td>0.063</td><td>0.079</td><td>0.063</td><td>0.071</td><td>0.029</td><td>0.061</td></tr>
+            <tr><td>LTF</td><td>0.175</td><td>0.071</td><td>0.066</td><td>0.026</td><td>0.082</td><td>0.181</td><td>0.076</td><td>0.075</td><td><strong>0.033</strong></td><td>0.088</td></tr>
+            <tr><td>ECO</td><td>0.530</td><td>0.432</td><td>0.126</td><td><strong>0.108</strong></td><td>0.310</td><td>0.501</td><td>0.282</td><td>0.019</td><td>0.008</td><td>0.205</td></tr>
+            <tr class="is-ref"><td>Self-play teacher (ref., privileged state)</td><td>0.659</td><td>0.497</td><td>0.244</td><td>0.019</td><td>0.363</td><td>0.650</td><td>0.488</td><td>0.205</td><td>0.015</td><td>0.348</td></tr>
+            <tr class="is-ours"><td>TerraTransfer++ student (ours)</td><td><strong>0.550</strong></td><td><strong>0.457</strong></td><td><strong>0.219</strong></td><td>0.017</td><td><strong>0.321</strong></td><td><strong>0.535</strong></td><td><strong>0.450</strong></td><td><strong>0.195</strong></td><td>0.014</td><td><strong>0.309</strong></td></tr>
+            <tr class="group"><td colspan="11">Waymo (108)</td></tr>
+            <tr><td>UniAD</td><td>0.591</td><td>0.275</td><td>0.334</td><td>0.095</td><td>0.315</td><td>0.585</td><td>0.278</td><td>0.340</td><td>0.101</td><td>0.317</td></tr>
+            <tr><td>VAD</td><td>0.237</td><td>0.197</td><td>0.208</td><td>0.109</td><td>0.189</td><td>0.226</td><td>0.189</td><td>0.199</td><td>0.114</td><td>0.183</td></tr>
+            <tr><td>LTF</td><td>0.520</td><td>0.312</td><td>0.218</td><td>0.100</td><td>0.292</td><td>0.530</td><td>0.325</td><td>0.225</td><td>0.111</td><td>0.303</td></tr>
+            <tr><td>ECO</td><td>0.801</td><td>0.581</td><td>0.339</td><td><strong>0.254</strong></td><td>0.510</td><td>0.757</td><td>0.463</td><td>0.213</td><td><strong>0.124</strong></td><td>0.403</td></tr>
+            <tr class="is-ref"><td>Self-play teacher (ref., privileged state)</td><td>0.924</td><td>0.854</td><td>0.817</td><td>0.115</td><td>0.710</td><td>0.912</td><td>0.847</td><td>0.777</td><td>0.102</td><td>0.694</td></tr>
+            <tr class="is-ours"><td>TerraTransfer++ student (ours)</td><td><strong>0.941</strong></td><td><strong>0.836</strong></td><td><strong>0.758</strong></td><td>0.116</td><td><strong>0.695</strong></td><td><strong>0.936</strong></td><td><strong>0.827</strong></td><td><strong>0.717</strong></td><td>0.100</td><td><strong>0.679</strong></td></tr>
+          </tbody>
+          <caption><span class="fig-label">Closed-loop and native HD-Score across all four HUGSim splits (higher is better).</span> Both blocks score the same re-run rollouts; UniAD, VAD, and LTF are re-run from their released checkpoints, and ECO uses its released checkpoint. The student emits a single jerk action per step and is scored natively with a decel stand-in plan. <strong>Bold</strong> marks the best comparison entry per column within each split; the self-play teacher drives from privileged vectorized state and is excluded.</caption>
+        </table>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ===================== Results: NAVSIM ===================== -->
+<section id="navsim">
+  <div class="wide reveal">
+    <p class="eyebrow">Results &middot; NAVSIM</p>
+    <h2>A camera-only planner outperforming every published method</h2>
+    <p class="diagram-lead"><strong>PDMS</strong> on NAVSIMv1 <code>navtest</code> and two-stage <strong>EPDMS</strong> on NAVSIMv2 <code>navhard</code>. The trajectory student plans a 4&nbsp;s trajectory from cameras and ego state, with <strong>no human trajectory supervision</strong>.</p>
+
+    <div class="bars-pair">
+    <div class="bars bars--results reveal">
+      <p class="bars-title"><code>navtest</code> &middot; PDMS <span class="ref-note">(axis starts at 80)</span></p>
+      <p class="bar-group">Privileged reference (ground-truth scene state)</p>
+      <div class="bar-row is-ref"><span class="bar-label">Human driver</span><span class="bar-track"><span class="bar-fill" style="--w:74.0%"></span></span><span class="bar-val">94.8</span></div>
+      <div class="bar-row is-ref"><span class="bar-label">PDM-Closed</span><span class="bar-track"><span class="bar-fill" style="--w:45.5%"></span></span><span class="bar-val">89.1</span></div>
+      <div class="bar-row is-ref"><span class="bar-label">DriveRL <span class="ref-note">(DriveZero teacher)</span></span><span class="bar-track"><span class="bar-fill" style="--w:79.0%"></span></span><span class="bar-val">95.8</span></div>
+      <div class="bar-row is-ref"><span class="bar-label">Trajectory teacher <span class="ref-note">(ours)</span></span><span class="bar-track"><span class="bar-fill" style="--w:79.5%"></span></span><span class="bar-val">95.9</span></div>
+      <p class="bar-group">Sensor input, human demonstrations</p>
+      <div class="bar-row"><span class="bar-label">UniAD</span><span class="bar-track"><span class="bar-fill" style="--w:17.0%"></span></span><span class="bar-val">83.4</span></div>
+      <div class="bar-row"><span class="bar-label">TransFuser</span><span class="bar-track"><span class="bar-fill" style="--w:20.0%"></span></span><span class="bar-val">84.0</span></div>
+      <div class="bar-row"><span class="bar-label">VADv2</span><span class="bar-track"><span class="bar-fill" style="--w:31.0%"></span></span><span class="bar-val">86.2</span></div>
+      <div class="bar-row"><span class="bar-label">DiffusionDrive</span><span class="bar-track"><span class="bar-fill" style="--w:40.5%"></span></span><span class="bar-val">88.1</span></div>
+      <div class="bar-row"><span class="bar-label">ReCogDrive <span class="ref-note">(VLA)</span></span><span class="bar-track"><span class="bar-fill" style="--w:54.0%"></span></span><span class="bar-val">90.8</span></div>
+      <div class="bar-row"><span class="bar-label">Hydra-MDP++</span><span class="bar-track"><span class="bar-fill" style="--w:55.0%"></span></span><span class="bar-val">91.0</span></div>
+      <div class="bar-row"><span class="bar-label">Centaur</span><span class="bar-track"><span class="bar-fill" style="--w:63.0%"></span></span><span class="bar-val">92.6</span></div>
+      <div class="bar-row"><span class="bar-label">DriveSuprim <span class="ref-note">(camera + LiDAR)</span></span><span class="bar-track"><span class="bar-fill" style="--w:67.5%"></span></span><span class="bar-val">93.5</span></div>
+      <div class="bar-row"><span class="bar-label">DrivoR-Scale</span><span class="bar-track"><span class="bar-fill" style="--w:73.0%"></span></span><span class="bar-val">94.6</span></div>
+      <p class="bar-group">Camera input, no human demonstrations</p>
+      <div class="bar-row"><span class="bar-label">DriveZero</span><span class="bar-track"><span class="bar-fill" style="--w:74.0%"></span></span><span class="bar-val">94.8</span></div>
+      <div class="bar-row"><span class="bar-label">DriveZero-Scale</span><span class="bar-track"><span class="bar-fill" style="--w:76.5%"></span></span><span class="bar-val">95.3</span></div>
+      <div class="bar-row is-ours"><span class="bar-label">TerraTransfer++ (ours)</span><span class="bar-track"><span class="bar-fill" style="--w:77.5%"></span></span><span class="bar-val">95.5</span></div>
+    </div>
+    <div class="bars bars--results reveal">
+      <p class="bars-title"><code>navhard</code> &middot; two-stage EPDMS</p>
+      <p class="bar-group">Privileged reference (ground-truth scene state)</p>
+      <div class="bar-row is-ref"><span class="bar-label">PDM-Closed</span><span class="bar-track"><span class="bar-fill" style="--w:80.9%"></span></span><span class="bar-val">56.6</span></div>
+      <div class="bar-row is-ref"><span class="bar-label">DriveRL <span class="ref-note">(DriveZero teacher)</span></span><span class="bar-track"><span class="bar-fill" style="--w:79.4%"></span></span><span class="bar-val">55.6</span></div>
+      <div class="bar-row is-ref"><span class="bar-label">Trajectory teacher <span class="ref-note">(ours)</span></span><span class="bar-track"><span class="bar-fill" style="--w:88.7%"></span></span><span class="bar-val">62.1</span></div>
+      <div class="bar-row is-ref"><span class="bar-label">Trajectory teacher <span class="ref-note">(ours, IDM selection)</span></span><span class="bar-track"><span class="bar-fill" style="--w:93.7%"></span></span><span class="bar-val">65.6</span></div>
+      <p class="bar-group">Camera input, human demonstrations</p>
+      <div class="bar-row"><span class="bar-label">LTF</span><span class="bar-track"><span class="bar-fill" style="--w:35.9%"></span></span><span class="bar-val">25.1</span></div>
+      <div class="bar-row"><span class="bar-label">NavFormer</span><span class="bar-track"><span class="bar-fill" style="--w:48.7%"></span></span><span class="bar-val">34.1</span></div>
+      <div class="bar-row"><span class="bar-label">RAP</span><span class="bar-track"><span class="bar-fill" style="--w:56.6%"></span></span><span class="bar-val">39.6</span></div>
+      <div class="bar-row"><span class="bar-label">GuideFlow</span><span class="bar-track"><span class="bar-fill" style="--w:73.6%"></span></span><span class="bar-val">51.5</span></div>
+      <div class="bar-row"><span class="bar-label">SimScale</span><span class="bar-track"><span class="bar-fill" style="--w:76.0%"></span></span><span class="bar-val">53.2</span></div>
+      <div class="bar-row"><span class="bar-label">DrivoR-Scale</span><span class="bar-track"><span class="bar-fill" style="--w:78.0%"></span></span><span class="bar-val">54.6</span></div>
+      <p class="bar-group">Camera input, no human demonstrations</p>
+      <div class="bar-row"><span class="bar-label">ZTRS</span><span class="bar-track"><span class="bar-fill" style="--w:68.7%"></span></span><span class="bar-val">48.1</span></div>
+      <div class="bar-row"><span class="bar-label">GigaPixel</span><span class="bar-track"><span class="bar-fill" style="--w:71.6%"></span></span><span class="bar-val">50.1</span></div>
+      <div class="bar-row"><span class="bar-label">DriveZero</span><span class="bar-track"><span class="bar-fill" style="--w:73.6%"></span></span><span class="bar-val">51.5</span></div>
+      <div class="bar-row"><span class="bar-label">DriveZero-Scale</span><span class="bar-track"><span class="bar-fill" style="--w:81.6%"></span></span><span class="bar-val">57.1</span></div>
+      <div class="bar-row is-ours"><span class="bar-label">TerraTransfer++ (ours)</span><span class="bar-track"><span class="bar-fill" style="--w:84.9%"></span></span><span class="bar-val">59.4</span></div>
+    </div>
+    </div>
+    <p class="muted bars-legend">Hatched bars read privileged ground-truth scene state at test time.</p>
+
+    <p class="muted" style="max-width:60rem">
+      On <code>navhard</code> the student reaches <strong>59.4</strong> EPDMS, 2.3 points above DriveZero-Scale (57.1) and
+      2.7 below its privileged, selection-based trajectory teacher (62.1). On <code>navtest</code> it reaches
+      <strong>95.5</strong> PDMS, outperforming every sensor-based entry including DriveZero-Scale (95.3).
+    </p>
+
+    <details class="table-details">
+      <summary>Full NAVSIM table</summary>
+      <div class="table-wrap">
+        <table class="data data--compact" id="tbl-navsim">
+          <thead>
+            <tr><th></th><th></th><th></th><th><code>navtest</code></th><th colspan="3"><code>navhard</code></th></tr>
+            <tr><th>Method</th><th>Demo</th><th>Priv.</th><th>PDMS</th><th>Stage 1</th><th>Stage 2</th><th>EPDMS</th></tr>
+          </thead>
+          <tbody>
+            <tr class="group"><td colspan="7">Privileged reference (ground-truth scene state)</td></tr>
+            <tr class="is-ref"><td>Human driver</td><td>&ndash;</td><td>&ndash;</td><td>94.8</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr class="is-ref"><td>PDM-Closed</td><td>&#10003;</td><td>&#10003;</td><td>89.1</td><td>&ndash;</td><td>&ndash;</td><td>56.6</td></tr>
+            <tr class="is-ref"><td>DriveRL (DriveZero teacher)</td><td>&#10007;</td><td>&#10003;</td><td>95.8</td><td>84.1</td><td>65.4</td><td>55.6</td></tr>
+            <tr class="is-ref"><td>TerraTransfer++ trajectory teacher (ours)</td><td>&#10007;</td><td>&#10003;</td><td><strong>95.9</strong></td><td>92.2</td><td>67.5</td><td>62.1</td></tr>
+            <tr class="is-ref"><td>TerraTransfer++ trajectory teacher (ours, IDM selection)</td><td>&#10007;</td><td>&#10003;</td><td><strong>95.9</strong></td><td><strong>94.6</strong></td><td><strong>69.5</strong></td><td><strong>65.6</strong></td></tr>
+            <tr class="group"><td colspan="7">Camera &amp; LiDAR input, human demonstrations</td></tr>
+            <tr><td>TransFuser</td><td>&#10003;</td><td>&#10007;</td><td>84.0</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>DRAMA</td><td>&#10003;</td><td>&#10007;</td><td>85.5</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>VADv2</td><td>&#10003;</td><td>&#10007;</td><td>86.2</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>DiffusionDrive</td><td>&#10003;</td><td>&#10007;</td><td>88.1</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>Hydra-MDP++</td><td>&#10003;</td><td>&#10007;</td><td>91.0</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>Centaur</td><td>&#10003;</td><td>&#10007;</td><td>92.6</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>DriveSuprim</td><td>&#10003;</td><td>&#10007;</td><td><strong>93.5</strong></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr class="group"><td colspan="7">Camera input, human demonstrations</td></tr>
+            <tr><td>UniAD</td><td>&#10003;</td><td>&#10007;</td><td>83.4</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>PARA-Drive</td><td>&#10003;</td><td>&#10007;</td><td>84.0</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>Epona</td><td>&#10003;</td><td>&#10007;</td><td>86.2</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>OneVL</td><td>&#10003;</td><td>&#10007;</td><td>88.4</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>DriveLaW</td><td>&#10003;</td><td>&#10007;</td><td>89.1</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>AutoVLA</td><td>&#10003;</td><td>&#10007;</td><td>89.1</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>DriveVLA-W0</td><td>&#10003;</td><td>&#10007;</td><td>90.2</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>Qwen-Drive-1.0</td><td>&#10003;</td><td>&#10007;</td><td>90.7</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>ReCogDrive</td><td>&#10003;</td><td>&#10007;</td><td>90.8</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>R2SE</td><td>&#10003;</td><td>&#10007;</td><td>91.6</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>iPad</td><td>&#10003;</td><td>&#10007;</td><td>91.7</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>DriveFine</td><td>&#10003;</td><td>&#10007;</td><td>91.8</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            <tr><td>LTF</td><td>&#10003;</td><td>&#10007;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>25.1</td></tr>
+            <tr><td>NavFormer</td><td>&#10003;</td><td>&#10007;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>34.1</td></tr>
+            <tr><td>RAP</td><td>&#10003;</td><td>&#10007;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>39.6</td></tr>
+            <tr><td>GuideFlow</td><td>&#10003;</td><td>&#10007;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>51.5</td></tr>
+            <tr><td>SimScale</td><td>&#10003;</td><td>&#10007;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>53.2</td></tr>
+            <tr><td>DrivoR-Scale</td><td>&#10003;</td><td>&#10007;</td><td><strong>94.6</strong></td><td>&ndash;</td><td>&ndash;</td><td><strong>54.6</strong></td></tr>
+            <tr class="group"><td colspan="7">Camera input, no human demonstrations</td></tr>
+            <tr><td>ZTRS</td><td>&#10007;</td><td>&#10007;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>48.1</td></tr>
+            <tr><td>GigaPixel</td><td>&#10007;</td><td>&#10007;</td><td>&ndash;</td><td>77.8</td><td>63.5</td><td>50.1</td></tr>
+            <tr><td>DriveZero</td><td>&#10007;</td><td>&#10007;</td><td>94.8</td><td>84.1</td><td>60.8</td><td>51.5</td></tr>
+            <tr><td>DriveZero-Scale</td><td>&#10007;</td><td>&#10007;</td><td>95.3</td><td>82.3</td><td><strong>69.1</strong></td><td>57.1</td></tr>
+            <tr class="is-ours"><td>TerraTransfer++ trajectory student (ours)</td><td>&#10007;</td><td>&#10007;</td><td><strong>95.5</strong></td><td><strong>89.1</strong></td><td>66.5</td><td><strong>59.4</strong></td></tr>
+          </tbody>
+          <caption><span class="fig-label">Pseudo closed-loop planning on NAVSIM (higher is better).</span> <code>navtest</code> reports PDMS (NAVSIMv1); <code>navhard</code> reports per-stage scores and the two-stage EPDMS (NAVSIMv2). Baseline rows are the published results compiled by DriveZero; &ndash; marks a score that compilation does not list. <em>Demo</em>: human trajectory demonstrations used as training supervision. <em>Priv.</em>: reads privileged ground-truth scene state at test time. Italic rows are privileged references. Both teacher rows keep the best of 16 sampled plans; the student scores a single sampled plan with no selection. <strong>Bold</strong> marks the best score in each group.</caption>
+        </table>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ===================== Plan visualization (pending) ===================== -->
+<section id="plans">
+  <div class="wide reveal">
+    <p class="eyebrow">Plan Visualization</p>
+    <h2>What the camera-only planner plans</h2>
+    <p class="diagram-lead">Plans of the camera-only trajectory student on NAVSIM, 16 scenes per panel. The planned trajectory is drawn in blue on the front camera, with a bird&rsquo;s-eye view inset.</p>
+    <div class="rollout-set">
+      <h3><code>navtest</code></h3>
+      <div class="video-grid video-grid--wide">
+        <figure>
+          <div class="video-frame"><img src="assets/figures/gif/navtest.gif" width="1600" height="908" loading="lazy" alt="4 by 4 grid of navtest scenes: front-camera views with the student's planned trajectory in blue and a bird's-eye-view inset."></div>
+        </figure>
+      </div>
+    </div>
+    <div class="rollout-set">
+      <h3><code>navhard</code> &middot; Stage 1</h3>
+      <div class="video-grid video-grid--wide">
+        <figure>
+          <div class="video-frame"><img src="assets/figures/gif/navhard_interaction_stage1.gif" width="1600" height="908" loading="lazy" alt="4 by 4 grid of navhard Stage 1 interaction scenes with the student's planned trajectory in blue and a bird's-eye-view inset."></div>
+        </figure>
+      </div>
+    </div>
+    <div class="rollout-set">
+      <h3><code>navhard</code> &middot; Stage 2</h3>
+      <div class="video-grid video-grid--wide">
+        <figure>
+          <div class="video-frame"><img src="assets/figures/gif/navhard_interaction_stage2.gif" width="1600" height="908" loading="lazy" alt="4 by 4 grid of navhard Stage 2 interaction scenes, the perturbed follow-up starts, with the student's planned trajectory in blue and a bird's-eye-view inset."></div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Qualitative ===================== -->
+<section id="qualitative">
+  <div class="wide reveal">
+    <p class="eyebrow">Qualitative Rollouts</p>
+    <h2>Naturalistic driving across the long tail</h2>
+    <p class="diagram-lead">Closed-loop HUGSim rollouts of the camera-only TerraTransfer++ student, two scenarios per dataset, shown through the three front cameras.</p>
+    <div class="rollout-set">
+      <h3>nuScenes</h3>
+      <div class="video-grid video-grid--wide">
+        <figure>
+          <div class="video-frame"><video muted loop playsinline controls controlslist="nodownload" preload="metadata"><source src="assets/videos/hugsim/nuscenes_0064-hard-00.mp4" type="video/mp4"></video></div>
+        </figure>
+        <figure>
+          <div class="video-frame"><video muted loop playsinline controls controlslist="nodownload" preload="metadata"><source src="assets/videos/hugsim/nuscenes_0167-extreme-00.mp4" type="video/mp4"></video></div>
+        </figure>
+      </div>
+    </div>
+    <div class="rollout-set">
+      <h3>PandaSet</h3>
+      <div class="video-grid video-grid--wide">
+        <figure>
+          <div class="video-frame"><video muted loop playsinline controls controlslist="nodownload" preload="metadata"><source src="assets/videos/hugsim/pandaset_021-extreme-02.mp4" type="video/mp4"></video></div>
+        </figure>
+        <figure>
+          <div class="video-frame"><video muted loop playsinline controls controlslist="nodownload" preload="metadata"><source src="assets/videos/hugsim/pandaset_053-extreme-02.mp4" type="video/mp4"></video></div>
+        </figure>
+      </div>
+    </div>
+    <div class="rollout-set">
+      <h3>KITTI-360</h3>
+      <div class="video-grid video-grid--wide">
+        <figure>
+          <div class="video-frame"><video muted loop playsinline controls controlslist="nodownload" preload="metadata"><source src="assets/videos/hugsim/kitti360_8240_8440-hard-00.mp4" type="video/mp4"></video></div>
+        </figure>
+        <figure>
+          <div class="video-frame"><video muted loop playsinline controls controlslist="nodownload" preload="metadata"><source src="assets/videos/hugsim/kitti360_9540_9720-medium-00.mp4" type="video/mp4"></video></div>
+        </figure>
+      </div>
+    </div>
+    <div class="rollout-set">
+      <h3>Waymo Open Dataset</h3>
+      <div class="video-grid video-grid--wide">
+        <figure>
+          <div class="video-frame"><video muted loop playsinline controls controlslist="nodownload" preload="metadata"><source src="assets/videos/hugsim/waymo_102751446607-hard-00.mp4" type="video/mp4"></video></div>
+        </figure>
+        <figure>
+          <div class="video-frame"><video muted loop playsinline controls controlslist="nodownload" preload="metadata"><source src="assets/videos/hugsim/waymo_106762673266-hard-00.mp4" type="video/mp4"></video></div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Terra Series ===================== -->
+<section id="terra-series">
+  <div class="wide reveal">
+    <p class="eyebrow">Terra Series</p>
+    <div class="intg" id="integrations-widget">
+      <div class="intg-tabs" role="tablist" aria-label="Select a Terra Series project">
+        <span class="intg-slider" aria-hidden="true"></span>
+        <button type="button" class="intg-tab is-active" role="tab" id="intg-tab-terrazero"
+                aria-selected="true" aria-controls="intg-panel-terrazero">TerraZero</button>
+        <button type="button" class="intg-tab" role="tab" id="intg-tab-terratransfer"
+                aria-selected="false" aria-controls="intg-panel-terratransfer" tabindex="-1">TerraTransfer</button>
+        <button type="button" class="intg-tab" role="tab" id="intg-tab-spacer"
+                aria-selected="false" aria-controls="intg-panel-spacer" tabindex="-1">SPACeR</button>
+      </div>
+
+      <div class="intg-stage">
+        <!-- TerraZero -->
+        <div class="intg-panel intg-panel--wide" role="tabpanel" id="intg-panel-terrazero" aria-labelledby="intg-tab-terrazero">
+          <div class="intg-text">
+            <h3>Procedural Driving Simulation for Self-Play RL at Scale</h3>
+            <p>TerraZero is the vectorized simulator and self-play recipe behind Phase&nbsp;1 of TerraTransfer++: a fast object-level traffic simulator, a procedural scenario generator, and a compute-efficient self-play recipe that trains driving policies from scratch &mdash; with zero human demonstrations &mdash; and transfers them across cities and datasets. Its frozen self-play policy is the teacher behind both students on this page.</p>
+            <div class="series-links">
+              <a class="btn btn-primary" href="https://terra-applied.github.io/TerraZero/" target="_blank" rel="noopener">Project Page →</a>
+            </div>
+          </div>
+          <div class="intg-showcase">
+            <div class="intg-media">
+              <video class="intg-video" muted loop playsinline preload="metadata"
+                     controls controlslist="nodownload"
+                     src="assets/videos/terrazero-selfplay.mp4"></video>
+            </div>
+          </div>
+        </div>
+
+        <!-- TerraTransfer -->
+        <div class="intg-panel intg-panel--wide" role="tabpanel" id="intg-panel-terratransfer" aria-labelledby="intg-tab-terratransfer" hidden>
+          <div class="intg-text">
+            <h3>Learning End-to-End Driving Policies Without Expert Demonstrations</h3>
+            <p>TerraTransfer decouples learning to drive from learning to see: it pretrains a single policy by self-play in TerraZero, then aligns a pretrained vision backbone to that frozen policy&rsquo;s latent space through an action KL divergence and a batch-relational low-rank structural loss. Alignment needs only paired (image, scene-state) frames, never a logged trajectory, and the resulting camera policy reaches 0.490 HD-Score on the photorealistic closed-loop benchmark HUGSim. TerraTransfer++ adds the learn-to-plan stage on top of this recipe.</p>
+            <div class="series-links">
+              <a class="btn btn-primary" href="https://terra-applied.github.io/TerraTransfer/" target="_blank" rel="noopener">Project Page →</a>
+              <a class="btn" href="https://arxiv.org/abs/2606.17386" target="_blank" rel="noopener">arXiv</a>
+            </div>
+          </div>
+          <div class="intg-showcase">
+            <div class="intg-media">
+              <video class="intg-video" muted loop playsinline preload="metadata"
+                     controls controlslist="nodownload"
+                     src="https://huggingface.co/datasets/woo-who/terrazero-assets/resolve/main/terra-series/terratransfer.mp4"></video>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPACeR -->
+        <div class="intg-panel intg-panel--wide" role="tabpanel" id="intg-panel-spacer" aria-labelledby="intg-tab-spacer" hidden>
+          <div class="intg-text">
+            <h3>Human-Like Simulation Agents via Self-Play Anchoring <span class="series-badge">ICLR 2026</span></h3>
+            <p>SPACeR anchors TerraZero's self-play RL to a pretrained tokenized reference model, making sim agents that are simultaneously human-like and reactive. The resulting policy is ~50× smaller than tokenized baselines with 10× faster inference, and outperforms prior self-play and imitation methods on the Waymo Sim Agents Challenge.</p>
+            <div class="series-links">
+              <a class="btn btn-primary" href="https://spacer-ai.github.io/" target="_blank" rel="noopener">Project Page →</a>
+              <a class="btn" href="https://arxiv.org/abs/2510.18060" target="_blank" rel="noopener">arXiv</a>
+              <a class="btn" href="https://openreview.net/forum?id=Q5H3NCy18S" target="_blank" rel="noopener">Paper</a>
+            </div>
+          </div>
+          <div class="intg-showcase">
+            <div class="threeup">
+              <div class="threeup-cell">
+                <div class="threeup-vid">
+                  <video loop muted playsinline preload="metadata"
+                         src="https://spacer-ai.github.io/static/videos/source/baseline_0/paper_selfplay_nodrop_2a02131f75e5a3c3_sample0.mp4"></video>
+                </div>
+                <p class="threeup-cap">PPO</p>
+              </div>
+              <div class="threeup-cell">
+                <div class="threeup-vid">
+                  <video loop muted playsinline preload="metadata"
+                         src="https://spacer-ai.github.io/static/videos/source/baseline_0/paper_humanppo_2a02131f75e5a3c3_sample0.mp4"></video>
+                </div>
+                <p class="threeup-cap">HR-PPO</p>
+              </div>
+              <div class="threeup-cell">
+                <div class="threeup-vid">
+                  <div class="threeup-legend" aria-hidden="true">
+                    <span class="row"><span class="sw" style="background:#87CEEB"></span>Targeted Agent</span>
+                    <span class="row"><span class="sw" style="background:#7a7a7a"></span>Other Agents</span>
+                  </div>
+                  <video loop muted playsinline preload="metadata"
+                         src="https://spacer-ai.github.io/static/videos/source/baseline_0/paper_human_2a02131f75e5a3c3_sample0.mp4"></video>
+                </div>
+                <p class="threeup-cap">SPACeR</p>
+              </div>
+            </div>
+            <figure class="figure" style="margin:0">
+              <img src="assets/figures/spacer_arch.png" alt="SPACeR architecture: batched self-play rollouts anchored to a tokenized reference model via a KL term." loading="lazy">
+              <figcaption>SPACeR anchors decentralized self-play to a frozen tokenized reference model, balancing a task reward with a human-likeness KL term.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <noscript>
+        <p class="muted">Enable JavaScript to browse the Terra Series.</p>
+      </noscript>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BibTeX ===================== -->
+<section id="bibtex">
+  <div class="wide reveal">
+    <p class="eyebrow">BibTeX</p>
+    <h2>Cite This Work</h2>
+    <div class="bibtex">
+      <button class="copy-btn" type="button">Copy</button>
+      <pre>@article{xiong2026terratransferpp,
+  title   = {TerraTransfer++: Demonstration-Free End-to-End Planner},
+  author  = {Xiong, Zikang and Li, Weixin and Wu, Zhouchonghao and Rangesh, Akshay
+             and Bonde, Saarth and Hall, Grantland and Tang, Chen and Hu, Yihan and Zhan, Wei},
+  journal = {arXiv preprint arXiv:2610.30319},
+  year    = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== Footer ===================== -->
+<footer class="site-footer">
+  <div class="wide">
+    <div class="foot-grid">
+      <div>
+        <div class="brand-mark" style="color:#fff">TerraTransfer++</div>
+        <p style="max-width:42ch;color:#cfd3da">A demonstration-free end-to-end planner, via self-play, trajectory distillation, and vision alignment.</p>
+      </div>
+      <div>
+        <p style="margin:0 0 .4rem;font-weight:600">Links</p>
+        <p style="margin:.2rem 0"><a href="https://arxiv.org/abs/2610.30319" target="_blank" rel="noopener">arXiv</a></p>
+      </div>
+    </div>
+    <p class="copyright">© 2026 Applied Intuition. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js?v=f5c76671" defer></script>
+</body>
+</html>
