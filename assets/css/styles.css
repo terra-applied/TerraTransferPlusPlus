@@ -942,7 +942,7 @@ table.data tbody tr.is-ref td { font-style: italic; color: var(--gray); backgrou
 /* "×" after a stat: the glyph sits 0.10 em above the baseline in Applied Sans
    Display; drop it so its bottom lines up with the digits */
 .statline .times-unit { position: relative; top: 0.1em; }
-/* phones: the count-up row's widest stat ("1.49B miles") must fit a half-width
+/* phones: the count-up row's widest stat ("224M miles") must fit a half-width
    column on one line, so the whole row scales with the viewport instead */
 @media (max-width: 480px) {
   .statline[data-countup] .stat-num { font-size: min(2rem, 6.4vw); white-space: nowrap; }
