@@ -102,33 +102,6 @@
     items.forEach(function (i) { obsItem.observe(i); });
   }
 
-  // ---- BibTeX copy ---------------------------------------------------------
-  function initBibtexCopy() {
-    var btn = document.querySelector(".bibtex .copy-btn");
-    if (!btn) return;
-    var pre = document.querySelector(".bibtex pre");
-    if (!pre) return;
-    btn.addEventListener("click", function () {
-      var text = pre.innerText;
-      var done = function () {
-        var label = btn.getAttribute("data-label") || btn.textContent;
-        btn.setAttribute("data-label", label);
-        btn.textContent = "Copied";
-        setTimeout(function () { btn.textContent = label; }, 1500);
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(done).catch(function () {});
-      } else {
-        var sel = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(pre);
-        sel.removeAllRanges();
-        sel.addRange(range);
-        try { document.execCommand("copy"); done(); } catch (e) { /* ignore */ }
-        sel.removeAllRanges();
-      }
-    });
-  }
 
   // ---- integrations showcase -----------------------------------------------
   // A flat tablist: clicking a tab activates it, reveals its panel, hides the
@@ -440,7 +413,6 @@
     initNav();
     initReveal();
     initTimeline();
-    initBibtexCopy();
     initIntegrations();
     initAmbientVideos();
     initPlayInView();
