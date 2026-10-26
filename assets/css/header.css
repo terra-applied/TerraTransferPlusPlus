@@ -88,4 +88,7 @@ html { scroll-padding-top: calc(var(--header-h) + var(--header-gap) + 16px); }
   .nav a:last-child { border-bottom: none; }
 
   .hero { padding-top: calc(var(--header-h) + var(--header-gap) + var(--space-3)); }
+  /* The mobile brand circle is for the header only; keep the footer brand as plain text. */
+  .site-footer .brand-mark { width: auto; height: auto; justify-content: flex-start; gap: .55em; background: transparent; border-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+
 }
